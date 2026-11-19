@@ -1,6 +1,6 @@
 # SPEC 01 — MVP visual de Arcade Vault (todas las pantallas del template)
 
-> **Status:** Aprobado
+> **Status:** Implemented
 > **Depends on:** —
 > **Date:** 2026-11-19
 > **Objective:** Portar a Next.js App Router las cinco pantallas de `references/templates/` (Biblioteca, Detalle, Reproductor, Auth y Salón de la Fama) con datos mock y sin juegos reales ni persistencia.
@@ -102,7 +102,7 @@ app/not-found.tsx
 4. Crear `components/GameCard.tsx` y `components/Library.tsx`. Reemplazar `app/page.tsx` por la Biblioteca. Click en la card o en `JUGAR` navega a `/games/[id]`.
 5. Crear `app/not-found.tsx` con estética arcade (título pixel tipo `GAME OVER · 404`, texto breve, botón a `/`).
 6. Crear `components/Leaderboard.tsx` y `app/games/[id]/page.tsx`. Usa `getGame` y llama a `notFound()` si no existe. Usa `generateStaticParams` con los ids de `GAMES`. `▶ JUGAR AHORA` va a `/games/[id]/play`. `VOLVER AL VAULT` va a `/`.
-7. Crear `components/GamePlayer.tsx` y `app/games/[id]/play/page.tsx` (con `notFound()` para ids inválidos). Simulación: cada 220 ms suma entre 10 y 99 puntos mientras no esté en pausa ni terminado. Sube nivel cuando `score % 2500 < 100`. `FIN` abre el modal. `GUARDAR PUNTUACIÓN` solo muestra `▸ PUNTUACIÓN GUARDADA_`. `JUGAR DE NUEVO` reinicia el estado. `VOLVER AL VAULT` va a `/`. `SALIR` va a `/games/[id]`.
+7. Crear `components/GamePlayer.tsx` y `app/games/[id]/play/page.tsx` (con `notFound()` para ids inválidos). Simulación: cada 220 ms suma entre 10 y 99 puntos mientras no esté en pausa ni terminado. Sube un nivel cada vez que la puntuación cruza un múltiplo de 2500 (`Math.floor(score / 2500)` aumenta respecto del tick anterior). La regla original del template (`score % 2500 < 100`) se descartó porque subía varios niveles seguidos al inicio de cada tramo. `FIN` abre el modal. `GUARDAR PUNTUACIÓN` solo muestra `▸ PUNTUACIÓN GUARDADA_`. `JUGAR DE NUEVO` reinicia el estado. `VOLVER AL VAULT` va a `/`. `SALIR` va a `/games/[id]`.
 8. Crear `components/AuthForm.tsx` y `app/auth/page.tsx`. Submit del formulario y `JUGAR COMO INVITADO` navegan a `/` sin guardar nada. Botones sociales sin acción.
 9. Crear `components/HallOfFame.tsx` y `app/hall-of-fame/page.tsx`. Tab inicial = primer juego. Cambiar de tab regenera podio y tabla. Sin fila "TU MEJOR MARCA".
 10. Eliminar assets del scaffold que queden sin uso (`public/next.svg`, `public/vercel.svg`, etc.) solo si ningún archivo los referencia.
@@ -145,6 +145,8 @@ app/not-found.tsx
 - **Yes:** 404 arcade con `notFound()` para ids inválidos.
 - **No:** redirect silencioso a `/`. Oculta errores de URL.
 - **Yes:** pestaña del Salón como estado local. Evita `searchParams` + Suspense con `cacheComponents`.
+- **Yes:** ocultar el botón `Iniciar Sesión` del Nav por debajo de 840 px. El panel móvil ya tiene el link de sesión, y así el `≡` entra completo a 375 px (en el template quedaba cortado).
+- **Yes:** `export const instant = false` en `/games/[id]` y `/games/[id]/play`. Silencia en dev la validación de navegación instantánea por acceder a `params` fuera de `<Suspense>`; son 8 páginas estáticas livianas.
 - **Yes:** componentes interactivos como Client Components aislados. Las `page.tsx` quedan como Server Components que pasan datos.
 
 ## Risks

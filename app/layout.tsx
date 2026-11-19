@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Courier_Prime, JetBrains_Mono, Press_Start_2P } from "next/font/google";
+import { Suspense } from "react";
+import Footer from "@/components/Footer";
+import Nav, { NavView } from "@/components/Nav";
 import "./globals.css";
 
 // Same fonts the reference template loads from Google Fonts:
@@ -40,7 +43,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* background layers from the reference template */}
         <div className="av-bg" aria-hidden="true" />
         <div className="av-noise" aria-hidden="true" />
-        <div id="root">{children}</div>
+        <div id="root">
+          {/* usePathname suspends on routes with params unknown at build time
+              (cacheComponents), so the Nav needs a Suspense boundary. The
+              fallback is the same Nav without an active link. */}
+          <Suspense fallback={<NavView pathname={null} />}>
+            <Nav />
+          </Suspense>
+          <main className="av-main">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );
