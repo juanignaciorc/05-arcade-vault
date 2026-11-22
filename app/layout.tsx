@@ -1,32 +1,15 @@
 import type { Metadata } from "next";
-import { Courier_Prime, JetBrains_Mono, Press_Start_2P } from "next/font/google";
 import { Suspense } from "react";
 import Footer from "@/components/Footer";
 import Nav, { NavView } from "@/components/Nav";
 import "./globals.css";
 
-// Same fonts the reference template loads from Google Fonts:
-// Press Start 2P (pixel headings), JetBrains Mono (body), Courier Prime (mono fallback).
-const pressStart2P = Press_Start_2P({
-  variable: "--font-press-start-2p",
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const courierPrime = Courier_Prime({
-  variable: "--font-courier-prime",
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
+// Fonts are loaded exactly like the reference template (same Google Fonts CSS
+// URL) instead of next/font: next/font served a different Press Start 2P build
+// and its metric-adjusted Arial fallbacks drew glyphs outside the latin subset
+// (▲ ⌕ ≡ ♥ ★) differently, so the UI was not pixel-identical to the template.
+const GOOGLE_FONTS_HREF =
+  "https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Courier+Prime:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap";
 
 export const metadata: Metadata = {
   title: "Arcade Vault",
@@ -35,10 +18,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="es"
-      className={`${pressStart2P.variable} ${jetbrainsMono.variable} ${courierPrime.variable}`}
-    >
+    <html lang="es">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href={GOOGLE_FONTS_HREF} />
+      </head>
       <body>
         {/* background layers from the reference template */}
         <div className="av-bg" aria-hidden="true" />

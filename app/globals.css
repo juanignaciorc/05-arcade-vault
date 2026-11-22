@@ -1,4 +1,11 @@
-@import "tailwindcss";
+/*
+ * Tailwind without preflight: its reset changed the template's look (h1–h3
+ * lost their bold weight, inputs lost their default padding). The template's
+ * own base styles below are the reset for this app.
+ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 /*
  * Tailwind theme tokens — expose the Arcade Vault palette and fonts as utilities
@@ -43,9 +50,9 @@
   --bronze: #d97a3a;
   --line: rgba(0, 245, 255, 0.18);
   --line-2: rgba(255, 255, 255, 0.06);
-  /* font families are loaded by next/font in app/layout.tsx */
-  --pixel: var(--font-press-start-2p), "Press Start 2P", system-ui, monospace;
-  --mono: var(--font-jetbrains-mono), "JetBrains Mono", var(--font-courier-prime), "Courier Prime", "Courier New", monospace;
+  /* font families are loaded from Google Fonts in app/layout.tsx (same URL as the template) */
+  --pixel: "Press Start 2P", system-ui, monospace;
+  --mono: "JetBrains Mono", "Courier Prime", "Courier New", monospace;
 }
 
 * { box-sizing: border-box; }
