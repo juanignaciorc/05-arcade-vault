@@ -15,7 +15,7 @@ export default function AuthForm() {
   // Visual only: no session is created and nothing is stored.
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push("/");
+    router.push("/games");
   };
 
   return (
@@ -78,7 +78,7 @@ export default function AuthForm() {
           type="button"
           className="btn ghost"
           style={{ width: "100%", marginTop: 10 }}
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/games")}
         >
           JUGAR COMO INVITADO
         </button>

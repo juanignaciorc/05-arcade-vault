@@ -1,6 +1,6 @@
 # SPEC 02 — Home (landing page) de Arcade Vault
 
-> **Status:** Draft
+> **Status:** Approved
 > **Depends on:** SPEC 01
 > **Date:** 2026-11-23
 > **Objective:** Portar el Home de `references/templates/home-about/home-about/home.jsx` a `/` y mover la Biblioteca a `/games`, con datos mock y sin la página Acerca de.
